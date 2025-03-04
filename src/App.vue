@@ -19,4 +19,9 @@ onHide(() => {
 /* 每个页面公共css */
 @import 'uview-plus/index.scss';
 @import '@/static/styles/common.scss';
+
+body,html{
+  overflow: hidden;
+  background-color: #101012;
+}
 </style>

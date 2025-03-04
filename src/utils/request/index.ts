@@ -1,8 +1,8 @@
 // 引入配置
 import type { HttpRequestConfig, HttpResponse } from 'uview-plus/libs/luch-request/index';
-import type { IResponse } from './types';
 import Request from 'uview-plus/libs/luch-request/index';
 import { requestInterceptors, responseInterceptors } from './interceptors';
+import type { IResponse } from './type';
 
 const http = new Request();
 
@@ -10,12 +10,7 @@ const http = new Request();
 export function setupRequest() {
   http.setConfig((defaultConfig: HttpRequestConfig) => {
     /* defaultConfig 为默认全局配置 */
-    defaultConfig.baseURL = import.meta.env.VITE_API_BASE_URL;
-    // #ifdef H5
-    if (import.meta.env.VITE_APP_PROXY === 'true') {
-      defaultConfig.baseURL = import.meta.env.VITE_API_PREFIX;
-    }
-    // #endif
+    defaultConfig.baseURL = import.meta.env.VITE_APP_BASE_API;
     return defaultConfig;
   });
   requestInterceptors(http);
@@ -23,32 +18,29 @@ export function setupRequest() {
 }
 
 export function request<T = any>(config: HttpRequestConfig): Promise<T> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     http.request(config).then((res: HttpResponse<IResponse<T>>) => {
       console.log('[ res ] >', res);
-      const { result } = res.data;
-      resolve(result as T);
-    }).catch((err: any) => {
-      console.error('[ err ] >', err);
-      reject(err);
+      // const { result } = res;
+      resolve(res as T);
     });
   });
 }
 
-export function get<T = any>(url: string, config?: HttpRequestConfig): Promise<T> {
-  return request({ ...config, url, method: 'GET' });
+export function get<T = any>(config: HttpRequestConfig): Promise<T> {
+  return request({ ...config, method: 'GET' });
 }
 
-export function post<T = any>(url: string, config?: HttpRequestConfig): Promise<T> {
-  return request({ ...config, url, method: 'POST' });
+export function post<T = any>(config: HttpRequestConfig): Promise<T> {
+  return request({ ...config, method: 'POST' });
 }
 
-export function upload<T = any>(url: string, config?: HttpRequestConfig): Promise<T> {
-  return request({ ...config, url, method: 'UPLOAD' });
+export function upload<T = any>(config: HttpRequestConfig): Promise<T> {
+  return request({ ...config, method: 'UPLOAD' });
 }
 
-export function download<T = any>(url: string, config?: HttpRequestConfig): Promise<T> {
-  return request({ ...config, url, method: 'DOWNLOAD' });
+export function download<T = any>(config: HttpRequestConfig): Promise<T> {
+  return request({ ...config, method: 'DOWNLOAD' });
 }
 
 export default setupRequest;

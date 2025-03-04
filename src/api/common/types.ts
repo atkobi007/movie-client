@@ -1,21 +1,21 @@
-export interface CommonReq {
+export interface CommonParams {
   [key: string]: any;
 }
 
-export interface CommonRes {
+export interface CommonResult {
   [key: string]: any;
 }
 
-export interface UploadRes {
+export interface UploadImageResult {
   file: string;
   url: string;
 }
 
-export interface SendCodeReq {
+export interface SendCodeParams {
   phone: number;
   code: number;
 }
 
-export interface SendCodeRes {
+export interface SendCodeResult {
   code: number;
 }

@@ -1,7 +1,6 @@
-import useClipboard from './use-clipboard';
+import useShare from './use-share';
 import useLoading from './use-loading';
 import useModal from './use-modal';
-import usePermission from './use-permission';
-import useShare from './use-share';
+import useClipboard from './use-clipboard';
 
-export { useClipboard, useLoading, useModal, usePermission, useShare };
+export { useShare, useLoading, useModal, useClipboard };

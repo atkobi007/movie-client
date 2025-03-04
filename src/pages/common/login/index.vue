@@ -50,10 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import type { CSSProperties } from 'vue';
-import { HOME_PATH, isTabBarPath, LOGIN_PATH, removeQueryString } from '@/router';
-import { setToken } from '@/utils/auth';
 import uCode from 'uview-plus/components/u-code/u-code.vue';
+import type { CSSProperties } from 'vue';
+import { setToken,setPlayer } from '@/utils/auth';
 // import { useUserStore } from '@/store';
 
 // const userStore = useUserStore();
@@ -61,7 +60,6 @@ const tel = ref<string>('18502811111');
 const code = ref<string>('1234');
 const tips = ref<string>();
 const uCodeRef = ref<InstanceType<typeof uCode> | null>(null);
-let redirect = HOME_PATH;
 
 const inputStyle = computed<CSSProperties>(() => {
   const style = {} as CSSProperties;
@@ -108,19 +106,9 @@ async function submit() {
   // });
   // if (!res) return;
   setToken('1234567890');
-  setTimeout(() => {
-    uni.$u.route({
-      type: isTabBarPath(redirect) ? 'switchTab' : 'redirectTo',
-      url: redirect,
-    });
-  }, 800);
+  setPlayer({nickanme:"测试登录",six:1})
+  uni.reLaunch({ url: '/pages/tab/home/index' });
 }
-
-onLoad((options: any) => {
-  if (options.redirect && removeQueryString(options.redirect) !== LOGIN_PATH) {
-    redirect = decodeURIComponent(options.redirect);
-  }
-});
 </script>
 
 <style lang="scss" scoped>
@@ -169,7 +157,7 @@ onLoad((options: any) => {
 }
 
 .hint {
-  @apply px-40rpx py-20rpx text-24rpx;
+  @apply px-40rpx py-20rpx text-20rpx;
 
   color: $u-tips-color;
 
